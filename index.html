@@ -1,16 +1,30 @@
-<html>
-  <head>
-    <script src="https://unpkg.com/@araujoigor/json-grid"></script>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script>
-      fetch("https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
-        .then(response => response.json())
-        .then(data => {
-          const grid = new JSONGrid(data, document.getElementById("container"));
-          grid.render();
-        });
-    </script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>JSON Grid</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@araujoigor/json-grid/dist/json-grid.css">
+  <script src="https://unpkg.com/@araujoigor/json-grid/dist/JSONGrid.min.js"></script>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script>
+    var container = document.getElementById("container");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs", true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        var jsonGrid = new JSONGrid(data, container);
+        jsonGrid.render();
+      }
+    }
+    xhr.send();
+  </script>
+</body>
 </html>
