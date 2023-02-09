@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Test Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.getJSON("http://update.nimblestorage.com/catalog/v1/getAllCatalogs", function(data) {
+          $("#data").html(JSON.stringify(data, undefined, 2));
+        });
+      });
+    </script>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <p>This is a test page to confirm that Github Pages is working.</p>
+    <pre id="data"></pre>
   </body>
 </html>
