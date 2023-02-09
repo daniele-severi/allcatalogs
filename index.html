@@ -27,7 +27,7 @@
       const table = document.querySelector("#catalogs");
 
       // Create table headings
-      let headings = Object.keys(data[0]);
+      let headings = Object.keys(data[0].catalogs[0]);
       let headerRow = document.createElement("tr");
       headings.forEach((heading) => {
         let th = document.createElement("th");
@@ -37,7 +37,7 @@
       table.appendChild(headerRow);
 
       // Create table rows with data
-      data.forEach((datum) => {
+      data.catalogs.forEach((datum) => {
         let row = document.createElement("tr");
         headings.forEach((heading) => {
           let td = document.createElement("td");
