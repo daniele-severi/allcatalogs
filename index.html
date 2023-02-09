@@ -1,45 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Catalogs</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
   </head>
   <body>
-    <table id="catalogs-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Version</th>
-          <th>Type</th>
-          <th>OS</th>
-        </tr>
-      </thead>
-      <tbody id="catalogs-body">
-        <!-- Table body will be populated with data from the API -->
-      </tbody>
-    </table>
-    
-    <script>
-      $.ajax({
-        type: 'GET',
-        url: 'https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs',
-        success: function(data) {
-          data.catalogs.forEach(function(catalog) {
-            $('#catalogs-body').append(`
-              <tr>
-                <td>${catalog.name}</td>
-                <td>${catalog.version}</td>
-                <td>${catalog.type}</td>
-                <td>${catalog.os}</td>
-              </tr>
-            `);
-          });
-        },
-        error: function(err) {
-          console.error(err);
-        }
-      });
-    </script>
+    <table id="catalogs"></table>
   </body>
+  <script>
+    const createTable = (data) => {
+      const table = document.querySelector("#catalogs");
+
+      // Create table headings
+      let headings = Object.keys(data[0]);
+      let headerRow = document.createElement("tr");
+      headings.forEach((heading) => {
+        let th = document.createElement("th");
+        th.textContent = heading;
+        headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+
+      // Create table rows with data
+      data.forEach((datum) => {
+        let row = document.createElement("tr");
+        headings.forEach((heading) => {
+          let td = document.createElement("td");
+          td.textContent = datum[heading];
+          row.appendChild(td);
+        });
+        table.appendChild(row);
+      });
+    };
+
+    fetch("https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
+      .then((res) => res.json())
+      .then((data) => {
+        createTable(data);
+      });
+  </script>
 </html>
