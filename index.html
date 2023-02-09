@@ -23,30 +23,31 @@
     <table id="catalogs"></table>
   </body>
   <script>
-    const createTable = (data) => {
-      const table = document.querySelector("#catalogs");
+  	const createTable = (data) => {
+	  const table = document.querySelector("#catalogs");
+	  const catalogs = data.catalogs;
 
-      // Create table headings
-      let headings = Object.keys(data[0].catalogs[0]);
-      let headerRow = document.createElement("tr");
-      headings.forEach((heading) => {
-        let th = document.createElement("th");
-        th.textContent = heading;
-        headerRow.appendChild(th);
-      });
-      table.appendChild(headerRow);
+	  // Create table headings
+	  let headings = Object.keys(catalogs[0]);
+	  let headerRow = document.createElement("tr");
+	  headings.forEach((heading) => {
+		let th = document.createElement("th");
+		th.textContent = heading;
+		headerRow.appendChild(th);
+	  });
+	  table.appendChild(headerRow);
 
-      // Create table rows with data
-      data.catalogs.forEach((datum) => {
-        let row = document.createElement("tr");
-        headings.forEach((heading) => {
-          let td = document.createElement("td");
-          td.textContent = datum[heading];
-          row.appendChild(td);
-        });
-        table.appendChild(row);
-      });
-    };
+	  // Create table rows with data
+	  catalogs.forEach((catalog) => {
+		let row = document.createElement("tr");
+		headings.forEach((heading) => {
+		  let td = document.createElement("td");
+		  td.textContent = catalog[heading];
+		  row.appendChild(td);
+		});
+		table.appendChild(row);
+	  });
+	};
 
     fetch("https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
       .then((res) => res.json())
