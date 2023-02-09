@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>JSON data from URL</title>
-</head>
-<body>
-  <div id="data"></div>
-  
-  <script>
-    const url = "https://update.nimblestorage.com/catalog/v1/getAllCatalogs";
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("data").innerText = data;
-      })
-      .catch(error => console.error(error));
-  </script>
-</body>
+  <head>
+    <script>
+      fetch("https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.text();
+        })
+        .then(data => {
+          document.body.innerHTML = "<pre>" + data + "</pre>";
+        })
+        .catch(error => {
+          console.error(error);
+          document.body.innerHTML = "<pre>Error: " + error + "</pre>";
+        });
+    </script>
+  </head>
+  <body></body>
 </html>
