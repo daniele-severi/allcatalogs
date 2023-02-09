@@ -22,38 +22,27 @@
   <script>
     $(document).ready(function() {
       $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs",
         type: "GET",
-        success: function(data) {
-          var json = JSON.parse(data);
-          var table = $("<table></table>").attr("id", "mytable");
-          var thead = $("<thead></thead>");
-          var tbody = $("<tbody></tbody>");
-          
-          // Creating header of the table
-          var header = json[0];
-          var headerRow = $("<tr></tr>");
-          for (var key in header) {
-            headerRow.append($("<th></th>").text(key));
-          }
-          thead.append(headerRow);
-          
-          // Creating body of the table
-          for (var i = 0; i < json.length; i++) {
-            var item = json[i];
-            var row = $("<tr></tr>");
-            for (var key in header) {
-              row.append($("<td></td>").text(item[key]));
+        url: "https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs",
+        contentType: "application/json",
+        success: function (data) {
+          var jsonData = JSON.parse(data);
+          if (jsonData.length > 0) {
+            var table = "<table border='1'>";
+            table += "<thead><tr><th>Key</th><th>Value</th></tr></thead>";
+            table += "<tbody>";
+            for (var i = 0; i < jsonData.length; i++) {
+              table += "<tr>";
+              table += "<td>" + jsonData[i].Key + "</td>";
+              table += "<td>" + jsonData[i].Value + "</td>";
+              table += "</tr>";
             }
-            tbody.append(row);
+            table += "</tbody></table>";
+            $("#dataTable").html(table);
           }
-          
-          // Appending thead and tbody to the table
-          table.append(thead);
-          table.append(tbody);
-          
-          // Appending the table to the div
-          $("#json-table").append(table);
+        },
+        error: function (error) {
+          console.log(error);
         }
       });
     });
