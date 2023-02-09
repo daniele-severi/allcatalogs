@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script>
-    window.onload = function() {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://update.nimblestorage.com/catalog/v1/getAllCatalogs", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          var jsonData = JSON.parse(xhr.responseText);
-          document.getElementById("json-data").innerHTML = JSON.stringify(jsonData, null, 2);
-        }
-      };
-      xhr.send();
-    };
-  </script>
+  <meta charset="utf-8">
+  <title>JSON data from URL</title>
 </head>
 <body>
-  <pre id="json-data"></pre>
+  <div id="data"></div>
+  
+  <script>
+    const url = "https://update.nimblestorage.com/catalog/v1/getAllCatalogs";
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("data").innerText = data;
+      })
+      .catch(error => console.error(error));
+  </script>
 </body>
 </html>
