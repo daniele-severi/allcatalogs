@@ -1,44 +1,45 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>Catalogs</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.ajax({
-          type: "GET",
-          url: "https://update.nimblestorage.com/catalog/v1/getAllCatalogs",
-          dataType: "json",
-          success: function(response) {
-            var data = response;
-            console.log(data);
-            var table = `<table border="1">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Size</th>
-              </tr>
-            </thead>
-            <tbody>`;
-            for (var i = 0; i < data.length; i++) {
-              table += "<tr>";
-              table += "<td>" + data[i].name + "</td>";
-              table += "<td>" + data[i].id + "</td>";
-              table += "<td>" + data[i].type + "</td>";
-              table += "<td>" + data[i].size + "</td>";
-              table += "</tr>";
-            }
-            table += "</tbody></table>";
-            $("#catalogData").html(table);
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
-          }
-        });
-      });
-    </script>
   </head>
   <body>
-    <div id="catalogData"></div>
+    <table id="catalogs-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+          <th>Type</th>
+          <th>OS</th>
+        </tr>
+      </thead>
+      <tbody id="catalogs-body">
+        <!-- Table body will be populated with data from the API -->
+      </tbody>
+    </table>
+    
+    <script>
+      $.ajax({
+        type: 'GET',
+        url: 'https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs',
+        success: function(data) {
+          data.catalogs.forEach(function(catalog) {
+            $('#catalogs-body').append(`
+              <tr>
+                <td>${catalog.name}</td>
+                <td>${catalog.version}</td>
+                <td>${catalog.type}</td>
+                <td>${catalog.os}</td>
+              </tr>
+            `);
+          });
+        },
+        error: function(err) {
+          console.error(err);
+        }
+      });
+    </script>
   </body>
 </html>
