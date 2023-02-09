@@ -5,47 +5,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>JSON Grid</title>
+  <title>dHCI Update Production Catalogs</title>
+  
+  <!-- Include the Roboto Mono font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700&display=swap" rel="stylesheet">
+  
+  <!-- Include the JSON Grid stylesheet -->
   <link rel="stylesheet" href="https://unpkg.com/@araujoigor/json-grid/dist/json-grid.css">
+  
+  <!-- Include the JSONGrid library -->
   <script src="https://unpkg.com/@araujoigor/json-grid/dist/JSONGrid.min.js"></script>
 </head>
 
 <body>
+  <!-- Container for the JSON Grid -->
   <div id="container"></div>
+  
+  <!-- JavaScript to fetch the data and render the grid -->
   <script>
+    // Get the container element
     var container = document.getElementById("container");
+    
+    // Create a new XHR object
     var xhr = new XMLHttpRequest();
+    
+    // Open a GET request to the API endpoint
     xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs", true);
+    
+    // Attach a function to handle the response
     xhr.onreadystatechange = function() {
+      // Check if the request is complete and successful
       if (xhr.readyState === 4 && xhr.status === 200) {
+        // Parse the response text as JSON
         var data = JSON.parse(xhr.responseText);
 
+        // Loop through the catalogs in the data
         data.catalogs.forEach(function(catalog) {
+          // Convert the "upgrade_to" property to an array of objects
           var upgrade_to = catalog.upgrade_to;
           catalog.upgrade_to = [];
           upgrade_to.forEach(function(version) {
             catalog.upgrade_to.push({version: version});
           });
 
+          // Convert the "esxi.upgrade_from" property to an array of objects
           var upgrade_from = catalog.esxi.upgrade_from;
           catalog.esxi.upgrade_from = [];
           upgrade_from.forEach(function(version) {
             catalog.esxi.upgrade_from.push({version: version});
           });
 
+          // Convert the "ncm.upgrade_from" property to an array of objects
           var upgrade_from_ncm = catalog.ncm.upgrade_from;
           catalog.ncm.upgrade_from = [];
           upgrade_from_ncm.forEach(function(version) {
             catalog.ncm.upgrade_from.push({version: version});
           });
 
+          // Convert the "nimble_os.upgrade_from" property to an array of objects
           var upgrade_from_nimble_os = catalog.nimble_os.upgrade_from;
           catalog.nimble_os.upgrade_from = [];
           upgrade_from_nimble_os.forEach(function(version) {
             catalog.nimble_os.upgrade_from.push({version: version});
           });
 
+          // Convert the "spp.upgrade_from" property to an array of objects
           var upgrade_from_spp = catalog.spp.upgrade_from;
           catalog.spp.upgrade_from = [];
           upgrade_from_spp.forEach(function(version) {
