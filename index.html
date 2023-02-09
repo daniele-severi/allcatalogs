@@ -22,23 +22,28 @@
         var data = JSON.parse(xhr.responseText);
 
         data.catalogs.forEach(function(catalog) {
-          var upgrade_to = catalog.upgrade_to;
-          catalog.upgrade_to = [];
-          upgrade_to.forEach(function(version) {
-            catalog.upgrade_to.push({version: version});
-          });
+          if (catalog.esxi) {
+            catalog.esxi.upgrade_from = [{'version': catalog.esxi.upgrade_from.join(', ')}];
+          }
+          if (catalog.ncm) {
+            catalog.ncm.upgrade_from = [{'version': catalog.ncm.upgrade_from.join(', ')}];
+          }
+          if (catalog.nimble_os) {
+			 
 
-          var upgrade_from = catalog.esxi.upgrade_from;
-          catalog.esxi.upgrade_from = [];
-          upgrade_from.forEach(function(version) {
-            catalog.esxi.upgrade_from.push({version: version});
-          });
+            catalog.nimble_os.upgrade_from = [{'version': catalog.nimble_os.upgrade_from.join(', ')}];
+          }
+          if (catalog.spp) {
+            catalog.spp.upgrade_from = [{'version': catalog.spp.upgrade_from.join(', ')}];
+          }
+															   
+			 
         });
 
         var jsonGrid = new JSONGrid(data, container);
         jsonGrid.render();
       }
-    };
+    }
     xhr.send();
   </script>
 </body>
