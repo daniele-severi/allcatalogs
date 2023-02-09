@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.getJSON("http://update.nimblestorage.com/catalog/v1/getAllCatalogs", function(data) {
+          $("#data").html(JSON.stringify(data, undefined, 2));
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <pre id="data"></pre>
+  </body>
+</html>
