@@ -48,7 +48,7 @@
       });
     };
 
-    fetch("https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
+    fetch("https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
       .then((res) => res.json())
       .then((data) => {
         createTable(data);
