@@ -1,52 +1,15 @@
 <html>
   <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      function loadJSON(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.responseType = "json";
-        xhr.onload = function() {
-          var status = xhr.status;
-          if (status === 200) {
-            callback(null, xhr.response);
-          } else {
-            callback(status, xhr.response);
-          }
-        };
-        xhr.send();
-      }
-      
-      function generateTable(data) {
-        var table = document.createElement("table");
-        var headerRow = document.createElement("tr");
-        
-        // Create the header row
-        var keys = Object.keys(data.catalogs[0]);
-        for (var i = 0; i < keys.length; i++) {
-          var headerCell = document.createElement("th");
-          headerCell.innerHTML = keys[i];
-          headerRow.appendChild(headerCell);
-        }
-        table.appendChild(headerRow);
-        
-        // Create the data rows
-        for (var i = 0; i < data.catalogs.length; i++) {
-          var dataRow = document.createElement("tr");
-          
-          for (var j = 0; j < keys.length; j++) {
-            var dataCell = document.createElement("td");
-            var key = keys[j];
-            var value = data.catalogs[i][key];
-            dataCell.innerHTML = value;
-            dataRow.appendChild(dataCell);
-          }
-          
-          table.appendChild(dataRow);
-        }
-        
-        document.body.appendChild(table);
-      }
-      
-      loadJSON("https://update.nimblestorage.com/catalog/v1/getAllCatalogs", function(error, data) {
-        if (error !== null) {
-          console.error("An error occurred:
+      $(document).ready(function() {
+        $.getJSON("https://update.nimblestorage.com/catalog/v1/getAllCatalogs", function(data) {
+          $("#data").html(JSON.stringify(data, undefined, 2));
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <pre id="data"></pre>
+  </body>
+</html>
