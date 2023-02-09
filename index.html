@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>API Data</title>
-  </head>
-  <body>
-    <div id="data"></div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script>
-      fetch("https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("data").innerHTML = "<pre>" + data + "</pre>";
+      $(document).ready(function() {
+        const cors_api_url = "https://cors-anywhere.herokuapp.com/";
+        const url = "https://update.nimblestorage.com/catalog/v1/getAllCatalogs";
+        $.getJSON(cors_api_url + url, function(data) {
+          const table = $("<table></table>");
+          table.append("<tr><th>Catalog Name</th><th>Version</th><th>Date</th></tr>");
+          for (const catalog of data) {
+            table.append(
+              "<tr><td>" +
+                catalog.name +
+                "</td><td>" +
+                catalog.version +
+                "</td><td>" +
+                catalog.date +
+                "</td></tr>"
+            );
+          }
+          $("body").append(table);
         });
+      });
     </script>
-  </body>
+  </head>
+  <body></body>
 </html>
