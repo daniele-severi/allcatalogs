@@ -20,11 +20,27 @@
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         var data = JSON.parse(xhr.responseText);
+
+        data.catalogs.forEach(function(catalog) {
+          var upgrade_to = catalog.upgrade_to;
+          catalog.upgrade_to = [];
+          upgrade_to.forEach(function(version) {
+            catalog.upgrade_to.push({version: version});
+          });
+
+          var upgrade_from = catalog.esxi.upgrade_from;
+          catalog.esxi.upgrade_from = [];
+          upgrade_from.forEach(function(version) {
+            catalog.esxi.upgrade_from.push({version: version});
+          });
+        });
+
         var jsonGrid = new JSONGrid(data, container);
         jsonGrid.render();
       }
-    }
+    };
     xhr.send();
   </script>
 </body>
+
 </html>
