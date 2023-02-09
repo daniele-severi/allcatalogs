@@ -22,28 +22,41 @@
         var data = JSON.parse(xhr.responseText);
 
         data.catalogs.forEach(function(catalog) {
-          if (catalog.esxi) {
-            catalog.esxi.upgrade_from = [{'version': catalog.esxi.upgrade_from.join(', ')}];
-          }
-          if (catalog.ncm) {
-            catalog.ncm.upgrade_from = [{'version': catalog.ncm.upgrade_from.join(', ')}];
-          }
-          if (catalog.nimble_os) {
-			 
+          var upgrade_to = catalog.upgrade_to;
+          catalog.upgrade_to = [];
+          upgrade_to.forEach(function(version) {
+            catalog.upgrade_to.push({version: version});
+          });
 
-            catalog.nimble_os.upgrade_from = [{'version': catalog.nimble_os.upgrade_from.join(', ')}];
-          }
-          if (catalog.spp) {
-            catalog.spp.upgrade_from = [{'version': catalog.spp.upgrade_from.join(', ')}];
-          }
-															   
-			 
+          var upgrade_from = catalog.esxi.upgrade_from;
+          catalog.esxi.upgrade_from = [];
+          upgrade_from.forEach(function(version) {
+            catalog.esxi.upgrade_from.push({version: version});
+          });
+
+          var upgrade_from_ncm = catalog.ncm.upgrade_from;
+          catalog.ncm.upgrade_from = [];
+          upgrade_from_ncm.forEach(function(version) {
+            catalog.ncm.upgrade_from.push({version: version});
+          });
+
+          var upgrade_from_nimble_os = catalog.nimble_os.upgrade_from;
+          catalog.nimble_os.upgrade_from = [];
+          upgrade_from_nimble_os.forEach(function(version) {
+            catalog.nimble_os.upgrade_from.push({version: version});
+          });
+
+          var upgrade_from_spp = catalog.spp.upgrade_from;
+          catalog.spp.upgrade_from = [];
+          upgrade_from_spp.forEach(function(version) {
+            catalog.spp.upgrade_from.push({version: version});
+          });
         });
 
         var jsonGrid = new JSONGrid(data, container);
         jsonGrid.render();
       }
-    }
+    };
     xhr.send();
   </script>
 </body>
