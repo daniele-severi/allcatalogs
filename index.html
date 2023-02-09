@@ -1,51 +1,44 @@
-<!DOCTYPE html>
 <html>
-<head>
-   <script
-   src="https://code.jquery.com/jquery-3.6.0.min.js"
-   integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
-   crossorigin="anonymous"
-   ></script>
-  <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 5px;
-    }
-  </style>
-</head>
-<body>
-  <h2>JSON to HTML Table</h2>
-  <div id="json-table"></div>
-  <script>
-    $(document).ready(function() {
-      $.ajax({
-        type: "GET",
-        url: "https://cors-anywhere.herokuapp.com/https://update.nimblestorage.com/catalog/v1/getAllCatalogs",
-        contentType: "application/json",
-        success: function (data) {
-          var jsonData = JSON.parse(data);
-          if (jsonData.length > 0) {
-            var table = "<table border='1'>";
-            table += "<thead><tr><th>Key</th><th>Value</th></tr></thead>";
-            table += "<tbody>";
-            for (var i = 0; i < jsonData.length; i++) {
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          type: "GET",
+          url: "https://update.nimblestorage.com/catalog/v1/getAllCatalogs",
+          dataType: "json",
+          success: function(response) {
+            var data = response;
+            console.log(data);
+            var table = `<table border="1">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Size</th>
+              </tr>
+            </thead>
+            <tbody>`;
+            for (var i = 0; i < data.length; i++) {
               table += "<tr>";
-              table += "<td>" + jsonData[i].Key + "</td>";
-              table += "<td>" + jsonData[i].Value + "</td>";
+              table += "<td>" + data[i].name + "</td>";
+              table += "<td>" + data[i].id + "</td>";
+              table += "<td>" + data[i].type + "</td>";
+              table += "<td>" + data[i].size + "</td>";
               table += "</tr>";
             }
             table += "</tbody></table>";
-            $("#dataTable").html(table);
+            $("#catalogData").html(table);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
           }
-        },
-        error: function (error) {
-          console.log(error);
-        }
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </head>
+  <body>
+    <div id="catalogData"></div>
+  </body>
 </html>
