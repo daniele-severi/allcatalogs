@@ -1,15 +1,22 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <script>
-      $(document).ready(function() {
-        $.getJSON("https://update.nimblestorage.com/catalog/v1/getAllCatalogs", function(data) {
-          $("#data").html(JSON.stringify(data, undefined, 2));
-        });
-      });
-    </script>
-  </head>
-  <body>
-    <pre id="data"></pre>
-  </body>
+<head>
+  <script>
+    window.onload = function() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://update.nimblestorage.com/catalog/v1/getAllCatalogs", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var jsonData = JSON.parse(xhr.responseText);
+          document.getElementById("json-data").innerHTML = JSON.stringify(jsonData, null, 2);
+        }
+      };
+      xhr.send();
+    };
+  </script>
+</head>
+<body>
+  <pre id="json-data"></pre>
+</body>
 </html>
